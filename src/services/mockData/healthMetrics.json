@@ -1,0 +1,62 @@
+[
+  {
+    "id": "hm1",
+    "date": "2024-01-15T00:00:00.000Z",
+    "weight": 72.5,
+    "measurements": {
+      "waist": 82,
+      "hips": 95,
+      "arms": 28
+    },
+    "bmi": 23.8,
+    "userId": "user1"
+  },
+  {
+    "id": "hm2",
+    "date": "2024-01-08T00:00:00.000Z",
+    "weight": 73.2,
+    "measurements": {
+      "waist": 83,
+      "hips": 96,
+      "arms": 29
+    },
+    "bmi": 24.0,
+    "userId": "user1"
+  },
+  {
+    "id": "hm3",
+    "date": "2024-01-01T00:00:00.000Z",
+    "weight": 74.0,
+    "measurements": {
+      "waist": 84,
+      "hips": 97,
+      "arms": 29
+    },
+    "bmi": 24.3,
+    "userId": "user1"
+  },
+  {
+    "id": "hm4",
+    "date": "2023-12-25T00:00:00.000Z",
+    "weight": 74.8,
+    "measurements": {
+      "waist": 85,
+      "hips": 98,
+      "arms": 30
+    },
+    "bmi": 24.5,
+    "userId": "user1"
+  },
+  {
+    "id": "hm5",
+    "date": "2023-12-18T00:00:00.000Z",
+    "weight": 75.5,
+    "measurements": {
+      "waist": 86,
+      "hips": 99,
+      "arms": 30
+    },
+    "bmi": 24.8,
+    "userId": "user1"
+  }
+]

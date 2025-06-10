@@ -1,0 +1,138 @@
+[
+  {
+    "id": "mp1",
+    "weekStartDate": "2024-01-08T00:00:00.000Z",
+    "meals": [
+      {
+        "id": "m1",
+        "day": "Monday",
+        "type": "Breakfast",
+        "recipeId": "r1",
+        "time": "8:00 AM",
+        "calories": 280
+      },
+      {
+        "id": "m2",
+        "day": "Monday",
+        "type": "Lunch",
+        "recipeId": "r3",
+        "time": "12:30 PM",
+        "calories": 450
+      },
+      {
+        "id": "m3",
+        "day": "Monday",
+        "type": "Dinner",
+        "recipeId": "r5",
+        "time": "7:00 PM",
+        "calories": 380
+      },
+      {
+        "id": "m4",
+        "day": "Tuesday",
+        "type": "Breakfast",
+        "recipeId": "r2",
+        "time": "8:00 AM",
+        "calories": 320
+      },
+      {
+        "id": "m5",
+        "day": "Tuesday",
+        "type": "Lunch",
+        "recipeId": "r4",
+        "time": "12:30 PM",
+        "calories": 350
+      },
+      {
+        "id": "m6",
+        "day": "Wednesday",
+        "type": "Breakfast",
+        "recipeId": "r1",
+        "time": "8:00 AM",
+        "calories": 280
+      },
+      {
+        "id": "m7",
+        "day": "Wednesday",
+        "type": "Lunch",
+        "recipeId": "r6",
+        "time": "12:30 PM",
+        "calories": 420
+      },
+      {
+        "id": "m8",
+        "day": "Wednesday",
+        "type": "Snack",
+        "recipeId": "r8",
+        "time": "3:00 PM",
+        "calories": 150
+      },
+      {
+        "id": "m9",
+        "day": "Thursday",
+        "type": "Breakfast",
+        "recipeId": "r9",
+        "time": "8:00 AM",
+        "calories": 300
+      },
+      {
+        "id": "m10",
+        "day": "Thursday",
+        "type": "Lunch",
+        "recipeId": "r10",
+        "time": "12:30 PM",
+        "calories": 380
+      },
+      {
+        "id": "m11",
+        "day": "Friday",
+        "type": "Breakfast",
+        "recipeId": "r2",
+        "time": "8:00 AM",
+        "calories": 320
+      },
+      {
+        "id": "m12",
+        "day": "Friday",
+        "type": "Lunch",
+        "recipeId": "r7",
+        "time": "12:30 PM",
+        "calories": 400
+      }
+    ],
+    "totalCalories": 4230,
+    "userId": "user1"
+  },
+  {
+    "id": "mp2",
+    "weekStartDate": "2024-01-01T00:00:00.000Z",
+    "meals": [
+      {
+        "id": "m13",
+        "day": "Monday",
+        "type": "Breakfast",
+        "recipeId": "r1",
+        "time": "8:00 AM",
+        "calories": 280
+      },
+      {
+        "id": "m14",
+        "day": "Monday",
+        "type": "Lunch",
+        "recipeId": "r4",
+        "time": "12:30 PM",
+        "calories": 350
+      },
+      {
+        "id": "m15",
+        "day": "Tuesday",
+        "type": "Breakfast",
+        "recipeId": "r9",
+        "time": "8:00 AM",
+        "calories": 300
+      }
+    ],
+    "totalCalories": 930,
+    "userId": "user1"
+  }
+]
