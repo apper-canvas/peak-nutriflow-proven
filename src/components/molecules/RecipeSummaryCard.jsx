@@ -4,9 +4,9 @@ import ApperIcon from '@/components/ApperIcon';
 
 const RecipeSummaryCard = ({ recipe, onClick, delay = 0 }) => {
     const totalTime = recipe.prepTime + recipe.cookTime;
-    const isQuick = totalTime &lt; 30;
-    const isLowCal = recipe.calories &lt; 300;
-    const isHighProtein = recipe.protein &gt; 20;
+    const isQuick = totalTime < 30;
+    const isLowCal = recipe.calories < 300;
+    const isHighProtein = recipe.protein > 20;
 
     return (
         <motion.div
