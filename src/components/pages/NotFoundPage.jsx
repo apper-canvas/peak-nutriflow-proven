@@ -1,9 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import ApperIcon from '../components/ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
 
-const NotFound = () => {
+const NotFoundPage = () => {
   const navigate = useNavigate();
 
   return (
@@ -30,36 +31,36 @@ const NotFound = () => {
           </p>
           
           <div className="space-y-4">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <Button
               onClick={() => navigate('/')}
               className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors font-medium"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Go to Dashboard
-            </motion.button>
+            </Button>
             
             <div className="flex justify-center space-x-4">
-              <button
+              <Button
                 onClick={() => navigate('/meal-planner')}
                 className="text-primary hover:text-primary/80 text-sm font-medium"
               >
                 Meal Planner
-              </button>
+              </Button>
               <span className="text-gray-400">•</span>
-              <button
+              <Button
                 onClick={() => navigate('/recipes')}
                 className="text-primary hover:text-primary/80 text-sm font-medium"
               >
                 Recipes
-              </button>
+              </Button>
               <span className="text-gray-400">•</span>
-              <button
+              <Button
                 onClick={() => navigate('/health-tracking')}
                 className="text-primary hover:text-primary/80 text-sm font-medium"
               >
                 Health Tracking
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -68,4 +69,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default NotFoundPage;

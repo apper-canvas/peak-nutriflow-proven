@@ -1,8 +1,8 @@
-import Home from '../pages/Home';
-import MealPlanner from '../pages/MealPlanner';
-import Recipes from '../pages/Recipes';
-import RecipeDetail from '../pages/RecipeDetail';
-import HealthTracking from '../pages/HealthTracking';
+import HomePage from '@/components/pages/HomePage';
+import MealPlannerPage from '@/components/pages/MealPlannerPage';
+import RecipesPage from '@/components/pages/RecipesPage';
+import RecipeDetailPage from '@/components/pages/RecipeDetailPage';
+import HealthTrackingPage from '@/components/pages/HealthTrackingPage';
 
 export const routes = {
   home: {
@@ -10,28 +10,28 @@ export const routes = {
     label: 'Dashboard',
     path: '/',
     icon: 'Home',
-    component: Home
+component: HomePage
   },
   mealPlanner: {
     id: 'mealPlanner',
     label: 'Meal Planner',
     path: '/meal-planner',
     icon: 'Calendar',
-    component: MealPlanner
+component: MealPlannerPage
   },
   recipes: {
     id: 'recipes',
     label: 'Recipes',
     path: '/recipes',
     icon: 'ChefHat',
-    component: Recipes
+component: RecipesPage
   },
   recipeDetail: {
     id: 'recipeDetail',
     label: 'Recipe Detail',
     path: '/recipe/:id',
     icon: 'Book',
-    component: RecipeDetail,
+component: RecipeDetailPage,
     hidden: true
   },
   healthTracking: {
@@ -39,7 +39,7 @@ export const routes = {
     label: 'Health Tracking',
     path: '/health-tracking',
     icon: 'Activity',
-    component: HealthTracking
+component: HealthTrackingPage
   }
 };
 
