@@ -13,34 +13,25 @@ function App() {
       <AuthProvider>
         <div className="App">
           <Routes>
-            {Object.values(routes).map((route) => (
-              <Route
-                key={route.id}
-                path={route.path}
-                element={
-                  <Layout>
-                    <route.component />
-                  </Layout>
-                }
-              />
-            ))}
-            <Route
-              path="*"
-              element={
-                <Layout>
-                  <NotFoundPage />
-                </Layout>
-              }
-            />
+            <Route path="/" element={<Layout />}>
+              {Object.values(routes).map((route) => (
+                <Route
+                  key={route.id}
+                  path={route.path}
+                  element={<route.component />}
+                />
+              ))}
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
           </Routes>
           <ToastContainer
             position="top-right"
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-className="z-[9999]"
-        />
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            className="z-[9999]"
+          />
         </div>
       </AuthProvider>
     </Router>
