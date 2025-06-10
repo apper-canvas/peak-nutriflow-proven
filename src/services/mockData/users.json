@@ -1,104 +1,62 @@
 [
   {
-    "id": 1,
+    "id": "1",
     "email": "demo@nutriflow.com",
     "password": "demo123",
     "profile": {
-      "firstName": "John",
-      "lastName": "Doe",
+      "firstName": "Demo",
+      "lastName": "User",
       "age": 28,
-      "gender": "male",
-      "height": 175,
-      "activityLevel": "moderately_active",
-      "createdAt": "2024-01-15T08:00:00.000Z",
-      "updatedAt": "2024-01-15T08:00:00.000Z"
+      "height": 170,
+      "weight": 65,
+      "activityLevel": "moderate",
+      "gender": "other",
+      "profileComplete": true
     },
     "nutritionGoals": {
-      "currentWeight": 75,
-      "goalWeight": 70,
-      "timeframe": 12,
-      "goalType": "lose",
-      "weeklyWeightChange": -0.42,
-      "startDate": "2024-01-15T08:00:00.000Z",
-      "targetDate": "2024-04-08T08:00:00.000Z",
-      "updatedAt": "2024-01-15T08:00:00.000Z"
+      "calories": 2200,
+      "protein": 165,
+      "carbs": 275,
+      "fat": 73,
+      "fiber": 28,
+      "goalsSet": true
     },
     "preferences": {
       "dietaryRestrictions": ["vegetarian"],
-      "allergies": [],
-      "cuisinePreferences": ["italian", "mediterranean"],
-      "mealPlanReminders": true,
-      "progressNotifications": true
+      "allergies": ["nuts"],
+      "cuisinePreferences": ["mediterranean", "asian"]
     },
     "createdAt": "2024-01-15T08:00:00.000Z",
-    "lastLogin": "2024-01-20T10:30:00.000Z"
+    "lastLoginAt": "2024-01-20T10:30:00.000Z"
   },
   {
-    "id": 2,
-    "email": "sarah.wilson@example.com",
-    "password": "password123",
+    "id": "2",
+    "email": "sarah@example.com",
+    "password": "sarah123",
     "profile": {
       "firstName": "Sarah",
-      "lastName": "Wilson",
+      "lastName": "Johnson",
       "age": 32,
-      "gender": "female",
       "height": 165,
-      "activityLevel": "very_active",
-      "createdAt": "2024-01-10T09:15:00.000Z",
-      "updatedAt": "2024-01-10T09:15:00.000Z"
+      "weight": 60,
+      "activityLevel": "active",
+      "gender": "female",
+      "profileComplete": true
     },
     "nutritionGoals": {
-      "currentWeight": 60,
-      "goalWeight": 65,
-      "timeframe": 24,
-      "goalType": "gain",
-      "weeklyWeightChange": 0.21,
-      "startDate": "2024-01-10T09:15:00.000Z",
-      "targetDate": "2024-07-01T09:15:00.000Z",
-      "updatedAt": "2024-01-10T09:15:00.000Z"
+      "calories": 1800,
+      "protein": 135,
+      "carbs": 225,
+      "fat": 60,
+      "fiber": 25,
+      "goalsSet": true
     },
     "preferences": {
       "dietaryRestrictions": [],
-      "allergies": ["nuts"],
-      "cuisinePreferences": ["asian", "healthy"],
-      "mealPlanReminders": true,
-      "progressNotifications": false
+      "allergies": ["shellfish"],
+      "cuisinePreferences": ["italian", "mexican"]
     },
-    "createdAt": "2024-01-10T09:15:00.000Z",
-    "lastLogin": "2024-01-19T14:22:00.000Z"
-  },
-  {
-    "id": 3,
-    "email": "mike.johnson@example.com",
-    "password": "mypassword",
-    "profile": {
-      "firstName": "Mike",
-      "lastName": "Johnson",
-      "age": 25,
-      "gender": "male",
-      "height": 180,
-      "activityLevel": "lightly_active",
-      "createdAt": "2024-01-08T11:30:00.000Z",
-      "updatedAt": "2024-01-08T11:30:00.000Z"
-    },
-    "nutritionGoals": {
-      "currentWeight": 85,
-      "goalWeight": 85,
-      "timeframe": 52,
-      "goalType": "maintain",
-      "weeklyWeightChange": 0,
-      "startDate": "2024-01-08T11:30:00.000Z",
-      "targetDate": "2025-01-06T11:30:00.000Z",
-      "updatedAt": "2024-01-08T11:30:00.000Z"
-    },
-    "preferences": {
-      "dietaryRestrictions": ["gluten_free"],
-      "allergies": ["dairy"],
-      "cuisinePreferences": ["american", "mexican"],
-      "mealPlanReminders": false,
-      "progressNotifications": true
-    },
-    "createdAt": "2024-01-08T11:30:00.000Z",
-    "lastLogin": "2024-01-18T16:45:00.000Z"
+    "createdAt": "2024-01-10T12:00:00.000Z",
+    "lastLoginAt": "2024-01-19T14:15:00.000Z"
   }
 ]
