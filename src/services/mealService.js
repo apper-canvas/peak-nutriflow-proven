@@ -1,23 +1,21 @@
 import { toast } from 'react-toastify';
 
-class RecipeService {
+class MealService {
   constructor() {
     const { ApperClient } = window.ApperSDK;
     this.apperClient = new ApperClient({
       apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
       apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
     });
-    this.tableName = 'recipe';
+    this.tableName = 'meal';
   }
 
   async getAll() {
     try {
       const params = {
         fields: [
-          'Name', 'description', 'image', 'prep_time', 'cook_time', 'servings',
-          'difficulty', 'calories', 'protein', 'carbs', 'fat', 'ingredients',
-          'instructions', 'category', 'Tags', 'CreatedOn', 'CreatedBy',
-          'ModifiedOn', 'ModifiedBy'
+          'Name', 'day', 'type', 'time', 'calories', 'recipe_id', 'meal_plan_id',
+          'Tags', 'CreatedOn', 'CreatedBy', 'ModifiedOn', 'ModifiedBy'
         ]
       };
 
@@ -31,8 +29,8 @@ class RecipeService {
 
       return response.data || [];
     } catch (error) {
-      console.error('Error fetching recipes:', error);
-      toast.error('Failed to fetch recipes');
+      console.error('Error fetching meals:', error);
+      toast.error('Failed to fetch meals');
       return [];
     }
   }
@@ -41,10 +39,8 @@ class RecipeService {
     try {
       const params = {
         fields: [
-          'Name', 'description', 'image', 'prep_time', 'cook_time', 'servings',
-          'difficulty', 'calories', 'protein', 'carbs', 'fat', 'ingredients',
-          'instructions', 'category', 'Tags', 'CreatedOn', 'CreatedBy',
-          'ModifiedOn', 'ModifiedBy'
+          'Name', 'day', 'type', 'time', 'calories', 'recipe_id', 'meal_plan_id',
+          'Tags', 'CreatedOn', 'CreatedBy', 'ModifiedOn', 'ModifiedBy'
         ]
       };
 
@@ -58,38 +54,27 @@ class RecipeService {
 
       return response.data || null;
     } catch (error) {
-      console.error(`Error fetching recipe with ID ${id}:`, error);
-      toast.error('Failed to fetch recipe');
+      console.error(`Error fetching meal with ID ${id}:`, error);
+      toast.error('Failed to fetch meal');
       return null;
     }
   }
 
-  async create(recipeData) {
+  async create(mealData) {
     try {
       // Only include Updateable fields
       const params = {
         records: [{
-          Name: recipeData.Name || recipeData.name,
-          description: recipeData.description || '',
-          image: recipeData.image || '',
-          prep_time: recipeData.prep_time || recipeData.prepTime || 0,
-          cook_time: recipeData.cook_time || recipeData.cookTime || 0,
-          servings: recipeData.servings || 1,
-          difficulty: recipeData.difficulty || 'Easy',
-          calories: recipeData.calories || 0,
-          protein: recipeData.protein || 0,
-          carbs: recipeData.carbs || 0,
-          fat: recipeData.fat || 0,
-          ingredients: Array.isArray(recipeData.ingredients) 
-            ? JSON.stringify(recipeData.ingredients)
-            : recipeData.ingredients || '',
-          instructions: Array.isArray(recipeData.instructions)
-            ? recipeData.instructions.join('\n')
-            : recipeData.instructions || '',
-          category: recipeData.category || 'Salad',
-          Tags: Array.isArray(recipeData.tags)
-            ? recipeData.tags.join(',')
-            : recipeData.Tags || recipeData.tags || ''
+          Name: mealData.Name || `${mealData.type} - ${mealData.day}`,
+          day: mealData.day,
+          type: mealData.type,
+          time: mealData.time || '',
+          calories: parseInt(mealData.calories) || 0,
+          recipe_id: parseInt(mealData.recipe_id) || parseInt(mealData.recipeId) || null,
+          meal_plan_id: parseInt(mealData.meal_plan_id) || parseInt(mealData.mealPlanId) || null,
+          Tags: Array.isArray(mealData.tags)
+            ? mealData.tags.join(',')
+            : mealData.Tags || mealData.tags || ''
         }]
       };
 
@@ -117,46 +102,43 @@ class RecipeService {
         }
         
         if (successfulRecords.length > 0) {
-          toast.success('Recipe created successfully');
+          toast.success('Meal created successfully');
           return successfulRecords[0].data;
         }
       }
 
-      throw new Error('Failed to create recipe');
+      throw new Error('Failed to create meal');
     } catch (error) {
-      console.error('Error creating recipe:', error);
+      console.error('Error creating meal:', error);
       throw error;
     }
   }
 
-  async update(id, recipeData) {
+  async update(id, mealData) {
     try {
       // Only include Updateable fields plus Id
       const params = {
         records: [{
           Id: parseInt(id),
-          Name: recipeData.Name || recipeData.name,
-          description: recipeData.description,
-          image: recipeData.image,
-          prep_time: recipeData.prep_time || recipeData.prepTime,
-          cook_time: recipeData.cook_time || recipeData.cookTime,
-          servings: recipeData.servings,
-          difficulty: recipeData.difficulty,
-          calories: recipeData.calories,
-          protein: recipeData.protein,
-          carbs: recipeData.carbs,
-          fat: recipeData.fat,
-          ingredients: Array.isArray(recipeData.ingredients) 
-            ? JSON.stringify(recipeData.ingredients)
-            : recipeData.ingredients,
-          instructions: Array.isArray(recipeData.instructions)
-            ? recipeData.instructions.join('\n')
-            : recipeData.instructions,
-          category: recipeData.category,
-          Tags: Array.isArray(recipeData.tags)
-            ? recipeData.tags.join(',')
-            : recipeData.Tags || recipeData.tags
-        }]
+          Name: mealData.Name,
+          day: mealData.day,
+          type: mealData.type,
+          time: mealData.time,
+          calories: mealData.calories ? parseInt(mealData.calories) : undefined,
+          recipe_id: mealData.recipe_id ? parseInt(mealData.recipe_id) : (mealData.recipeId ? parseInt(mealData.recipeId) : undefined),
+          meal_plan_id: mealData.meal_plan_id ? parseInt(mealData.meal_plan_id) : (mealData.mealPlanId ? parseInt(mealData.mealPlanId) : undefined),
+          Tags: Array.isArray(mealData.tags)
+            ? mealData.tags.join(',')
+            : mealData.Tags || mealData.tags
+        }].map(record => {
+          // Remove undefined fields
+          Object.keys(record).forEach(key => {
+            if (record[key] === undefined) {
+              delete record[key];
+            }
+          });
+          return record;
+        })[0]
       };
 
       const response = await this.apperClient.updateRecord(this.tableName, params);
@@ -183,14 +165,14 @@ class RecipeService {
         }
         
         if (successfulUpdates.length > 0) {
-          toast.success('Recipe updated successfully');
+          toast.success('Meal updated successfully');
           return successfulUpdates[0].data;
         }
       }
 
-      throw new Error('Failed to update recipe');
+      throw new Error('Failed to update meal');
     } catch (error) {
-      console.error('Error updating recipe:', error);
+      console.error('Error updating meal:', error);
       throw error;
     }
   }
@@ -222,17 +204,17 @@ class RecipeService {
         }
         
         if (successfulDeletions.length > 0) {
-          toast.success('Recipe deleted successfully');
+          toast.success('Meal deleted successfully');
           return true;
         }
       }
 
       return false;
     } catch (error) {
-      console.error('Error deleting recipe:', error);
+      console.error('Error deleting meal:', error);
       throw error;
     }
   }
 }
 
-export default new RecipeService();
+export default new MealService();

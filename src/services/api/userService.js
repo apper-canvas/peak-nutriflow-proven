@@ -1,163 +1,250 @@
-import usersData from '../mockData/users.json';
-
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+import { toast } from 'react-toastify';
 
 class UserService {
   constructor() {
-    this.data = [...usersData];
-  }
-
-  async register(email, password) {
-    await delay(400);
-    
-    // Check if user already exists
-    const existingUser = this.data.find(user => user.email === email);
-    if (existingUser) {
-      throw new Error('User already exists with this email');
-    }
-
-    const newUser = {
-      id: Date.now().toString(),
-      email,
-      password, // In production, this would be hashed
-      profile: {
-        firstName: '',
-        lastName: '',
-        age: null,
-        height: null,
-        weight: null,
-        activityLevel: 'moderate',
-        gender: '',
-        profileComplete: false
-      },
-      nutritionGoals: {
-        calories: 2000,
-        protein: 150,
-        carbs: 250,
-        fat: 67,
-        fiber: 25,
-        goalsSet: false
-      },
-      preferences: {
-        dietaryRestrictions: [],
-        allergies: [],
-        cuisinePreferences: []
-      },
-      createdAt: new Date().toISOString(),
-      lastLoginAt: new Date().toISOString()
-    };
-
-    this.data.push(newUser);
-    
-    // Return user without password
-    const { password: _, ...userWithoutPassword } = newUser;
-    return userWithoutPassword;
-  }
-
-  async login(email, password) {
-    await delay(350);
-    
-    const user = this.data.find(u => u.email === email && u.password === password);
-    if (!user) {
-      throw new Error('Invalid email or password');
-    }
-
-    // Update last login
-    user.lastLoginAt = new Date().toISOString();
-    
-    // Return user without password
-    const { password: _, ...userWithoutPassword } = user;
-    return userWithoutPassword;
-  }
-
-  async logout() {
-    await delay(200);
-    return true;
-  }
-
-  async getById(id) {
-    await delay(250);
-    const user = this.data.find(u => u.id === id);
-    if (!user) {
-      throw new Error('User not found');
-    }
-    
-    // Return user without password
-    const { password: _, ...userWithoutPassword } = user;
-    return userWithoutPassword;
-  }
-
-  async updateProfile(id, profileData) {
-    await delay(350);
-    
-    const userIndex = this.data.findIndex(u => u.id === id);
-    if (userIndex === -1) {
-      throw new Error('User not found');
-    }
-
-    this.data[userIndex].profile = {
-      ...this.data[userIndex].profile,
-      ...profileData,
-      profileComplete: true
-    };
-
-    // Return user without password
-    const { password: _, ...userWithoutPassword } = this.data[userIndex];
-    return userWithoutPassword;
-  }
-
-  async updateNutritionGoals(id, goalsData) {
-    await delay(350);
-    
-    const userIndex = this.data.findIndex(u => u.id === id);
-    if (userIndex === -1) {
-      throw new Error('User not found');
-    }
-
-    this.data[userIndex].nutritionGoals = {
-      ...this.data[userIndex].nutritionGoals,
-      ...goalsData,
-      goalsSet: true
-    };
-
-    // Return user without password
-    const { password: _, ...userWithoutPassword } = this.data[userIndex];
-    return userWithoutPassword;
-  }
-
-  async updatePreferences(id, preferences) {
-    await delay(300);
-    
-    const userIndex = this.data.findIndex(u => u.id === id);
-    if (userIndex === -1) {
-      throw new Error('User not found');
-    }
-
-    this.data[userIndex].preferences = {
-      ...this.data[userIndex].preferences,
-      ...preferences
-    };
-
-    // Return user without password
-    const { password: _, ...userWithoutPassword } = this.data[userIndex];
-    return userWithoutPassword;
+    const { ApperClient } = window.ApperSDK;
+    this.apperClient = new ApperClient({
+      apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+      apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+    });
+    this.tableName = 'User1';
   }
 
   async getAll() {
-    await delay(300);
-    // Return all users without passwords (admin function)
-    return this.data.map(({ password: _, ...user }) => user);
+    try {
+      const params = {
+        fields: [
+          'Name', 'email', 'first_name', 'last_name', 'age', 'height', 'weight',
+          'activity_level', 'gender', 'profile_complete', 'calories', 'protein',
+          'carbs', 'fat', 'fiber', 'goals_set', 'dietary_restrictions', 'allergies',
+          'cuisine_preferences', 'created_at', 'last_login_at', 'CreatedOn',
+          'CreatedBy', 'ModifiedOn', 'ModifiedBy'
+        ]
+      };
+
+      const response = await this.apperClient.fetchRecords(this.tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return [];
+      }
+
+      return response.data || [];
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      toast.error('Failed to fetch users');
+      return [];
+    }
+  }
+
+  async getById(id) {
+    try {
+      const params = {
+        fields: [
+          'Name', 'email', 'first_name', 'last_name', 'age', 'height', 'weight',
+          'activity_level', 'gender', 'profile_complete', 'calories', 'protein',
+          'carbs', 'fat', 'fiber', 'goals_set', 'dietary_restrictions', 'allergies',
+          'cuisine_preferences', 'created_at', 'last_login_at', 'CreatedOn',
+          'CreatedBy', 'ModifiedOn', 'ModifiedBy'
+        ]
+      };
+
+      const response = await this.apperClient.getRecordById(this.tableName, id, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+
+      return response.data || null;
+    } catch (error) {
+      console.error(`Error fetching user with ID ${id}:`, error);
+      toast.error('Failed to fetch user');
+      return null;
+    }
+  }
+
+  async create(userData) {
+    try {
+      // Only include Updateable fields
+      const params = {
+        records: [{
+          Name: userData.Name || `${userData.first_name || ''} ${userData.last_name || ''}`.trim(),
+          email: userData.email,
+          first_name: userData.first_name || '',
+          last_name: userData.last_name || '',
+          age: userData.age || null,
+          height: userData.height || null,
+          weight: userData.weight || null,
+          activity_level: userData.activity_level || 'moderate',
+          gender: userData.gender || '',
+          profile_complete: userData.profile_complete || false,
+          calories: userData.calories || 2000,
+          protein: userData.protein || 150,
+          carbs: userData.carbs || 250,
+          fat: userData.fat || 67,
+          fiber: userData.fiber || 25,
+          goals_set: userData.goals_set || false,
+          dietary_restrictions: Array.isArray(userData.dietary_restrictions) 
+            ? userData.dietary_restrictions.join(',') 
+            : userData.dietary_restrictions || '',
+          allergies: Array.isArray(userData.allergies) 
+            ? userData.allergies.join(',') 
+            : userData.allergies || '',
+          cuisine_preferences: Array.isArray(userData.cuisine_preferences) 
+            ? userData.cuisine_preferences.join(',') 
+            : userData.cuisine_preferences || '',
+          created_at: new Date().toISOString(),
+          last_login_at: new Date().toISOString()
+        }]
+      };
+
+      const response = await this.apperClient.createRecord(this.tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const successfulRecords = response.results.filter(result => result.success);
+        const failedRecords = response.results.filter(result => !result.success);
+        
+        if (failedRecords.length > 0) {
+          console.error(`Failed to create ${failedRecords.length} records:${failedRecords}`);
+          
+          failedRecords.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`);
+            });
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        if (successfulRecords.length > 0) {
+          toast.success('User created successfully');
+          return successfulRecords[0].data;
+        }
+      }
+
+      throw new Error('Failed to create user');
+    } catch (error) {
+      console.error('Error creating user:', error);
+      throw error;
+    }
+  }
+
+  async update(id, userData) {
+    try {
+      // Only include Updateable fields plus Id
+      const params = {
+        records: [{
+          Id: parseInt(id),
+          Name: userData.Name || `${userData.first_name || ''} ${userData.last_name || ''}`.trim(),
+          email: userData.email,
+          first_name: userData.first_name,
+          last_name: userData.last_name,
+          age: userData.age,
+          height: userData.height,
+          weight: userData.weight,
+          activity_level: userData.activity_level,
+          gender: userData.gender,
+          profile_complete: userData.profile_complete,
+          calories: userData.calories,
+          protein: userData.protein,
+          carbs: userData.carbs,
+          fat: userData.fat,
+          fiber: userData.fiber,
+          goals_set: userData.goals_set,
+          dietary_restrictions: Array.isArray(userData.dietary_restrictions) 
+            ? userData.dietary_restrictions.join(',') 
+            : userData.dietary_restrictions,
+          allergies: Array.isArray(userData.allergies) 
+            ? userData.allergies.join(',') 
+            : userData.allergies,
+          cuisine_preferences: Array.isArray(userData.cuisine_preferences) 
+            ? userData.cuisine_preferences.join(',') 
+            : userData.cuisine_preferences,
+          last_login_at: new Date().toISOString()
+        }]
+      };
+
+      const response = await this.apperClient.updateRecord(this.tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const successfulUpdates = response.results.filter(result => result.success);
+        const failedUpdates = response.results.filter(result => !result.success);
+        
+        if (failedUpdates.length > 0) {
+          console.error(`Failed to update ${failedUpdates.length} records:${failedUpdates}`);
+          
+          failedUpdates.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`);
+            });
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        if (successfulUpdates.length > 0) {
+          toast.success('User updated successfully');
+          return successfulUpdates[0].data;
+        }
+      }
+
+      throw new Error('Failed to update user');
+    } catch (error) {
+      console.error('Error updating user:', error);
+      throw error;
+    }
   }
 
   async delete(id) {
-    await delay(300);
-    const index = this.data.findIndex(u => u.id === id);
-    if (index === -1) {
-      throw new Error('User not found');
+    try {
+      const params = {
+        RecordIds: [parseInt(id)]
+      };
+
+      const response = await this.apperClient.deleteRecord(this.tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return false;
+      }
+
+      if (response.results) {
+        const successfulDeletions = response.results.filter(result => result.success);
+        const failedDeletions = response.results.filter(result => !result.success);
+        
+        if (failedDeletions.length > 0) {
+          console.error(`Failed to delete ${failedDeletions.length} records:${failedDeletions}`);
+          
+          failedDeletions.forEach(record => {
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        if (successfulDeletions.length > 0) {
+          toast.success('User deleted successfully');
+          return true;
+        }
+      }
+
+      return false;
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      throw error;
     }
-    
-    this.data.splice(index, 1);
-    return true;
   }
 }
 
