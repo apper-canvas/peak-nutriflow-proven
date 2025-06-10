@@ -16,10 +16,22 @@ const RecipeSummaryCard = ({ recipe, onClick, delay = 0 }) => {
             whileHover={{ scale: 1.02 }}
             onClick={onClick}
             className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-all duration-200"
-        >
+>
             {/* Recipe Image */}
-            <div className="h-48 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                <ApperIcon name="ChefHat" className="w-12 h-12 text-primary" />
+            <div className="relative h-48 overflow-hidden">
+                <img
+                    src={recipe.image}
+                    alt={`Delicious ${recipe.name} - A healthy recipe with ${recipe.calories} calories`}
+                    className="recipe-image w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextElementSibling.style.display = 'flex';
+                    }}
+                />
+                <div className="recipe-image-fallback hidden h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                    <ApperIcon name="ChefHat" className="w-12 h-12 text-primary" />
+                </div>
             </div>
 
             {/* Recipe Content */}
