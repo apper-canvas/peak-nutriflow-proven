@@ -1,46 +1,49 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { AnimatePresence } from 'framer-motion';
-import Layout from '@/Layout';
-import { routeArray } from '@/config/routes';
-import NotFoundPage from '@/components/pages/NotFoundPage';
 import 'react-toastify/dist/ReactToastify.css';
+import Layout from './Layout';
+import NotFoundPage from '@/components/pages/NotFoundPage';
+import { AuthProvider } from '@/context/AuthContext';
+import { routes } from '@/config/routes';
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-background">
-        <AnimatePresence mode="wait">
+    <Router>
+      <AuthProvider>
+        <div className="App">
           <Routes>
-            <Route path="/" element={<Layout />}>
-              {routeArray.map((route) => (
-                <Route 
-                  key={route.id} 
-                  path={route.path === '/' ? '/' : route.path} 
-                  element={<route.component />} 
-                />
-              ))}
-<Route path="*" element={<NotFoundPage />} />
-            </Route>
+            {Object.values(routes).map((route) => (
+              <Route
+                key={route.id}
+                path={route.path}
+                element={
+                  <Layout>
+                    <route.component />
+                  </Layout>
+                }
+              />
+            ))}
+            <Route
+              path="*"
+              element={
+                <Layout>
+                  <NotFoundPage />
+                </Layout>
+              }
+            />
           </Routes>
-        </AnimatePresence>
-        
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
+          <ToastContainer
+            position="top-right"
           pauseOnFocusLoss
           draggable
           pauseOnHover
           theme="light"
-          className="z-[9999]"
+className="z-[9999]"
         />
-      </div>
-    </BrowserRouter>
+        </div>
+      </AuthProvider>
+    </Router>
   );
 }
 
